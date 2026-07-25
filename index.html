@@ -19,8 +19,11 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background:
-        radial-gradient(circle at top, #1a1a2e, #080808 60%);
+      background: radial-gradient(
+        circle at top,
+        #1a1a2e,
+        #080808 60%
+      );
       color: white;
       padding: 20px;
     }
@@ -33,6 +36,7 @@
       border-radius: 20px;
       padding: 35px 25px;
       text-align: center;
+
       box-shadow:
         0 0 20px rgba(138, 43, 226, 0.5),
         0 0 60px rgba(138, 43, 226, 0.15);
@@ -70,22 +74,36 @@
       padding: 16px;
       border: none;
       border-radius: 12px;
-      background: linear-gradient(90deg, #7b2cff, #b967ff);
+
+      background:
+        linear-gradient(90deg, #7b2cff, #b967ff);
+
       color: white;
       font-size: 18px;
       font-weight: bold;
       cursor: pointer;
+
       transition: 0.2s;
-      box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+
+      box-shadow:
+        0 0 15px rgba(138, 43, 226, 0.5);
     }
 
     .btn:hover {
       transform: scale(1.03);
-      box-shadow: 0 0 25px rgba(138, 43, 226, 0.8);
+
+      box-shadow:
+        0 0 25px rgba(138, 43, 226, 0.8);
     }
 
     .btn:active {
       transform: scale(0.98);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
     }
 
     .info {
@@ -94,30 +112,58 @@
       font-size: 12px;
     }
 
+    .mensagem {
+      margin-top: 15px;
+      font-size: 14px;
+      min-height: 20px;
+    }
+
     .key-box {
       display: none;
+
       margin-top: 20px;
+
       background: #0d0d14;
+
       border: 1px solid #00ff88;
+
       border-radius: 12px;
+
       padding: 15px;
     }
 
     .key {
       color: #00ff88;
       font-weight: bold;
+
       word-break: break-all;
+
       margin: 10px 0;
+    }
+
+    .validade {
+      color: #aaa;
+      font-size: 12px;
+      margin-bottom: 12px;
     }
 
     .copy {
       background: #00ff88;
       color: #000;
+
       border: none;
+
       padding: 10px 20px;
+
       border-radius: 8px;
+
       font-weight: bold;
+
       cursor: pointer;
+    }
+
+    .copy:hover {
+      opacity: 0.85;
     }
   </style>
 </head>
@@ -126,7 +172,9 @@
 
   <div class="container">
 
-    <div class="logo">SILVAFFZ</div>
+    <div class="logo">
+      SILVAFFZ
+    </div>
 
     <div class="subtitle">
       Sistema oficial de acesso
@@ -137,56 +185,364 @@
       <span>ONLINE</span>
     </div>
 
-    <button class="btn" onclick="gerarKey()">
+    <button
+      class="btn"
+      id="btnGerar"
+    >
       🔑 PEGAR KEY
     </button>
 
-    <div class="key-box" id="keyBox">
+    <div
+      class="mensagem"
+      id="mensagem"
+    ></div>
+
+    <div
+      class="key-box"
+      id="keyBox"
+    >
 
       <p>Sua Key:</p>
 
-      <div class="key" id="key"></div>
+      <div
+        class="key"
+        id="key"
+      ></div>
 
-      <button class="copy" onclick="copiarKey()">
+      <div
+        class="validade"
+        id="validade"
+      ></div>
+
+      <button
+        class="copy"
+        id="btnCopiar"
+      >
         COPIAR KEY
       </button>
 
     </div>
 
     <div class="info">
-      Acesso válido por 30 dias após a ativação.
+      Acesso válido por 30 dias após a geração.
     </div>
 
   </div>
 
-  <script>
-    function gerarKey() {
+
+  <!-- FIREBASE -->
+
+  <script type="module">
+
+    import {
+      initializeApp
+    } from
+    "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      Timestamp
+    } from
+    "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
+
+    // CONFIGURAÇÃO DO SEU FIREBASE
+
+    const firebaseConfig = {
+
+      apiKey:
+      "AIzaSyDC7qRhqJJHV4Mybb8DpxMY_Ieud52DeoA",
+
+      authDomain:
+      "silvaffz.firebaseapp.com",
+
+      projectId:
+      "silvaffz",
+
+      storageBucket:
+      "silvaffz.firebasestorage.app",
+
+      messagingSenderId:
+      "120628808949",
+
+      appId:
+      "1:120628808949:web:745ef77eedbc9550a509bc",
+
+      measurementId:
+      "G-D1NJ15L6Q8"
+
+    };
+
+
+    // INICIALIZA FIREBASE
+
+    const app =
+      initializeApp(firebaseConfig);
+
+
+    // INICIALIZA FIRESTORE
+
+    const db =
+      getFirestore(app);
+
+
+    // ELEMENTOS DA PÁGINA
+
+    const btnGerar =
+      document.getElementById("btnGerar");
+
+    const btnCopiar =
+      document.getElementById("btnCopiar");
+
+    const keyBox =
+      document.getElementById("keyBox");
+
+    const keyElemento =
+      document.getElementById("key");
+
+    const validadeElemento =
+      document.getElementById("validade");
+
+    const mensagem =
+      document.getElementById("mensagem");
+
+
+    // GERA UMA KEY ALEATÓRIA
+
+    function gerarCodigoKey() {
 
       const caracteres =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-      let key = "SILVA-";
+      let parte1 = "";
+      let parte2 = "";
+      let parte3 = "";
 
-      for (let i = 0; i < 12; i++) {
-        key += caracteres.charAt(
-          Math.floor(Math.random() * caracteres.length)
+
+      for (let i = 0; i < 4; i++) {
+
+        parte1 += caracteres.charAt(
+          Math.floor(
+            Math.random() *
+            caracteres.length
+          )
         );
+
       }
 
-      document.getElementById("key").textContent = key;
 
-      document.getElementById("keyBox").style.display = "block";
+      for (let i = 0; i < 4; i++) {
+
+        parte2 += caracteres.charAt(
+          Math.floor(
+            Math.random() *
+            caracteres.length
+          )
+        );
+
+      }
+
+
+      for (let i = 0; i < 4; i++) {
+
+        parte3 += caracteres.charAt(
+          Math.floor(
+            Math.random() *
+            caracteres.length
+          )
+        );
+
+      }
+
+
+      return (
+        "SILVA-" +
+        parte1 +
+        "-" +
+        parte2 +
+        "-" +
+        parte3
+      );
+
     }
 
-    function copiarKey() {
 
-      const key =
-        document.getElementById("key").textContent;
+    // BOTÃO PEGAR KEY
 
-      navigator.clipboard.writeText(key);
+    btnGerar.addEventListener(
+      "click",
+      async function() {
 
-      alert("Key copiada!");
-    }
+        btnGerar.disabled = true;
+
+        mensagem.textContent =
+          "Gerando sua Key...";
+
+        keyBox.style.display =
+          "none";
+
+
+        try {
+
+          // GERA KEY
+
+          const key =
+            gerarCodigoKey();
+
+
+          // DATA ATUAL
+
+          const agora =
+            new Date();
+
+
+          // DATA DE EXPIRAÇÃO
+          // 30 DIAS
+
+          const expiracao =
+            new Date(agora);
+
+
+          expiracao.setDate(
+            expiracao.getDate() + 30
+          );
+
+
+          // SALVA NO FIRESTORE
+
+          const documento =
+            await addDoc(
+              collection(db, "Keys"),
+              {
+
+                Key: key,
+
+                Active: true,
+
+                createdAt:
+                  Timestamp.fromDate(
+                    agora
+                  ),
+
+                expiresAt:
+                  Timestamp.fromDate(
+                    expiracao
+                  )
+
+              }
+            );
+
+
+          // MOSTRA KEY
+
+          keyElemento.textContent =
+            key;
+
+
+          // FORMATA DATA
+
+          const dataFormatada =
+            expiracao.toLocaleDateString(
+              "pt-BR"
+            );
+
+
+          validadeElemento.textContent =
+            "Expira em: " +
+            dataFormatada;
+
+
+          keyBox.style.display =
+            "block";
+
+
+          mensagem.textContent =
+            "Key gerada com sucesso!";
+
+
+          mensagem.style.color =
+            "#00ff88";
+
+
+        } catch (erro) {
+
+          console.error(
+            "Erro ao gerar Key:",
+            erro
+          );
+
+
+          mensagem.textContent =
+            "Erro ao gerar a Key. Verifique o Firebase.";
+
+
+          mensagem.style.color =
+            "#ff4444";
+
+
+        }
+
+
+        btnGerar.disabled =
+          false;
+
+      }
+    );
+
+
+    // COPIAR KEY
+
+    btnCopiar.addEventListener(
+      "click",
+      async function() {
+
+        const key =
+          keyElemento.textContent;
+
+
+        if (!key) {
+
+          return;
+
+        }
+
+
+        try {
+
+          await navigator.clipboard.writeText(
+            key
+          );
+
+
+          btnCopiar.textContent =
+            "KEY COPIADA!";
+
+
+          setTimeout(
+            function() {
+
+              btnCopiar.textContent =
+                "COPIAR KEY";
+
+            },
+            2000
+          );
+
+
+        } catch (erro) {
+
+          alert(
+            "Não foi possível copiar a Key."
+          );
+
+        }
+
+      }
+    );
+
   </script>
 
 </body>

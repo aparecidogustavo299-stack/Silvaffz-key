@@ -3,18 +3,191 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SILVAFFZ - Sua Key</title>
+
+  <title>SILVAFFZ - Pegar Key</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background:
+        radial-gradient(circle at top, #1a1a2e, #080808 60%);
+      color: white;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(20, 20, 30, 0.95);
+      border: 1px solid #8a2be2;
+      border-radius: 20px;
+      padding: 35px 25px;
+      text-align: center;
+      box-shadow:
+        0 0 20px rgba(138, 43, 226, 0.5),
+        0 0 60px rgba(138, 43, 226, 0.15);
+    }
+
+    .logo {
+      font-size: 38px;
+      font-weight: bold;
+      color: #b967ff;
+      text-shadow: 0 0 15px #8a2be2;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #aaa;
+      margin-bottom: 30px;
+      font-size: 15px;
+    }
+
+    .status {
+      background: #111118;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 25px;
+      border: 1px solid #29293d;
+    }
+
+    .status span {
+      color: #00ff88;
+      font-weight: bold;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(90deg, #7b2cff, #b967ff);
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+    }
+
+    .btn:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 25px rgba(138, 43, 226, 0.8);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .info {
+      margin-top: 20px;
+      color: #777;
+      font-size: 12px;
+    }
+
+    .key-box {
+      display: none;
+      margin-top: 20px;
+      background: #0d0d14;
+      border: 1px solid #00ff88;
+      border-radius: 12px;
+      padding: 15px;
+    }
+
+    .key {
+      color: #00ff88;
+      font-weight: bold;
+      word-break: break-all;
+      margin: 10px 0;
+    }
+
+    .copy {
+      background: #00ff88;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
 
-  <h1>SILVAFFZ</h1>
+  <div class="container">
 
-  <h2>Sua Key</h2>
+    <div class="logo">SILVAFFZ</div>
 
-  <p>Você concluiu o processo!</p>
+    <div class="subtitle">
+      Sistema oficial de acesso
+    </div>
 
-  <p>Em breve sua Key aparecerá aqui.</p>
+    <div class="status">
+      Status do sistema:
+      <span>ONLINE</span>
+    </div>
+
+    <button class="btn" onclick="gerarKey()">
+      🔑 PEGAR KEY
+    </button>
+
+    <div class="key-box" id="keyBox">
+
+      <p>Sua Key:</p>
+
+      <div class="key" id="key"></div>
+
+      <button class="copy" onclick="copiarKey()">
+        COPIAR KEY
+      </button>
+
+    </div>
+
+    <div class="info">
+      Acesso válido por 30 dias após a ativação.
+    </div>
+
+  </div>
+
+  <script>
+    function gerarKey() {
+
+      const caracteres =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+      let key = "SILVA-";
+
+      for (let i = 0; i < 12; i++) {
+        key += caracteres.charAt(
+          Math.floor(Math.random() * caracteres.length)
+        );
+      }
+
+      document.getElementById("key").textContent = key;
+
+      document.getElementById("keyBox").style.display = "block";
+    }
+
+    function copiarKey() {
+
+      const key =
+        document.getElementById("key").textContent;
+
+      navigator.clipboard.writeText(key);
+
+      alert("Key copiada!");
+    }
+  </script>
 
 </body>
 </html>

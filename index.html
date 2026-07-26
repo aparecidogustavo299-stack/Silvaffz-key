@@ -1,572 +1,353 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>SILVAFFZ - Pegar Key</title>
+<title>SILVAFFZ - Sua Key</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: radial-gradient(
-        circle at top,
-        #1a1a2e,
-        #080808 60%
-      );
-      color: white;
-      padding: 20px;
-    }
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: radial-gradient(circle at top, #101c32, #050811 65%);
+  color: white;
+  font-family: Arial, sans-serif;
+}
 
-    .container {
-      width: 100%;
-      max-width: 420px;
-      background: rgba(20, 20, 30, 0.95);
-      border: 1px solid #8a2be2;
-      border-radius: 20px;
-      padding: 35px 25px;
-      text-align: center;
+.panel {
+  width: 100%;
+  max-width: 400px;
+  padding: 25px;
+  text-align: center;
+  background: #070d19;
+  border: 1px solid #00eaff;
+  border-radius: 18px;
+  box-shadow: 0 0 25px #00eaff44;
+}
 
-      box-shadow:
-        0 0 20px rgba(138, 43, 226, 0.5),
-        0 0 60px rgba(138, 43, 226, 0.15);
-    }
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+  color: #00eaff;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
 
-    .logo {
-      font-size: 38px;
-      font-weight: bold;
-      color: #b967ff;
-      text-shadow: 0 0 15px #8a2be2;
-      margin-bottom: 10px;
-    }
+.subtitle {
+  color: #66849b;
+  font-size: 12px;
+  margin-bottom: 25px;
+}
 
-    .subtitle {
-      color: #aaa;
-      margin-bottom: 30px;
-      font-size: 15px;
-    }
+.key-box {
+  padding: 20px;
+  background: #0d1725;
+  border: 1px solid #00ff88;
+  border-radius: 12px;
+}
 
-    .status {
-      background: #111118;
-      border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 25px;
-      border: 1px solid #29293d;
-    }
+.title {
+  color: #00ff88;
+  font-size: 13px;
+  font-weight: bold;
+}
 
-    .status span {
-      color: #00ff88;
-      font-weight: bold;
-    }
+#key {
+  margin: 18px 0;
+  padding: 14px;
+  background: #050811;
+  border-radius: 8px;
+  color: #00ff88;
+  font-size: 18px;
+  font-weight: bold;
+  word-break: break-all;
+}
 
-    .btn {
-      width: 100%;
-      padding: 16px;
-      border: none;
-      border-radius: 12px;
+button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background: #00ff88;
+  color: #001a0d;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-      background: linear-gradient(
-        90deg,
-        #7b2cff,
-        #b967ff
-      );
+button:active {
+  transform: scale(.98);
+}
 
-      color: white;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-
-      transition: 0.2s;
-
-      box-shadow:
-        0 0 15px rgba(138, 43, 226, 0.5);
-    }
-
-    .btn:hover {
-      transform: scale(1.03);
-
-      box-shadow:
-        0 0 25px rgba(138, 43, 226, 0.8);
-    }
-
-    .btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .key-box {
-      display: none;
-
-      margin-top: 20px;
-
-      background: #0d0d14;
-
-      border: 1px solid #00ff88;
-
-      border-radius: 12px;
-
-      padding: 15px;
-    }
-
-    .key {
-      color: #00ff88;
-
-      font-weight: bold;
-
-      word-break: break-all;
-
-      margin: 10px 0;
-    }
-
-    .validade {
-      color: #aaa;
-
-      font-size: 12px;
-
-      margin-bottom: 12px;
-    }
-
-    .copy {
-      background: #00ff88;
-
-      color: #000;
-
-      border: none;
-
-      padding: 10px 20px;
-
-      border-radius: 8px;
-
-      font-weight: bold;
-
-      cursor: pointer;
-    }
-
-    .mensagem {
-      margin-top: 15px;
-
-      font-size: 14px;
-
-      min-height: 20px;
-    }
-
-    .info {
-      margin-top: 20px;
-
-      color: #777;
-
-      font-size: 12px;
-    }
-  </style>
+#status {
+  margin-top: 15px;
+  color: #00ff88;
+  font-size: 12px;
+  min-height: 18px;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="container">
+<div class="panel">
 
-    <div class="logo">
-      SILVAFFZ
+  <div class="logo">
+    SILVAFFZ
+  </div>
+
+  <div class="subtitle">
+    SUA KEY DE ACESSO
+  </div>
+
+  <div class="key-box">
+
+    <div class="title">
+      🔑 SUA KEY
     </div>
 
-    <div class="subtitle">
-      Sistema oficial de acesso
+    <div id="key">
+      CARREGANDO...
     </div>
 
-    <div class="status">
-      Status do sistema:
-      <span>ONLINE</span>
-    </div>
-
-
-    <!-- BOTÃO PRINCIPAL -->
-
-    <button
-      class="btn"
-      id="btnPegarKey"
-    >
-      🔑 PEGAR KEY
+    <button id="copyButton">
+      📋 COPIAR KEY
     </button>
 
-
-    <div
-      class="mensagem"
-      id="mensagem"
-    ></div>
-
-
-    <!-- KEY -->
-
-    <div
-      class="key-box"
-      id="keyBox"
-    >
-
-      <p>Sua Key:</p>
-
-      <div
-        class="key"
-        id="key"
-      ></div>
-
-      <div
-        class="validade"
-        id="validade"
-      ></div>
-
-      <button
-        class="copy"
-        id="btnCopiar"
-      >
-        COPIAR KEY
-      </button>
-
-    </div>
-
-
-    <div class="info">
-      Acesso válido por 30 dias após a geração.
-    </div>
+    <div id="status"></div>
 
   </div>
 
+</div>
 
-  <!-- FIREBASE -->
+<script type="module">
 
-  <script type="module">
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 
-    import {
-      initializeApp
-    } from
-    "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-
-
-    import {
-      getFirestore,
-      collection,
-      addDoc,
-      Timestamp
-    } from
-    "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  Timestamp
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
 
-    // CONFIGURAÇÃO FIREBASE
+/* =========================
+   FIREBASE
+========================= */
 
-    const firebaseConfig = {
+const firebaseConfig = {
 
-      apiKey:
-      "AIzaSyDC7qRhqJJHV4Mybb8DpxMY_Ieud52DeoA",
+  apiKey:
+  "AIzaSyDC7qRhqJJHV4Mybb8DpxMY_Ieud52DeoA",
 
-      authDomain:
-      "silvaffz.firebaseapp.com",
+  authDomain:
+  "silvaffz.firebaseapp.com",
 
-      projectId:
-      "silvaffz",
+  projectId:
+  "silvaffz",
 
-      storageBucket:
-      "silvaffz.firebasestorage.app",
+  storageBucket:
+  "silvaffz.firebasestorage.app",
 
-      messagingSenderId:
-      "120628808949",
+  messagingSenderId:
+  "120628808949",
 
-      appId:
-      "1:120628808949:web:745ef77eedbc9550a509bc",
+  appId:
+  "1:120628808949:web:745ef77eedbc9550a509bc",
 
-      measurementId:
-      "G-D1NJ15L6Q8"
+  measurementId:
+  "G-D1NJ15L6Q8"
 
-    };
-
-
-    // INICIALIZA FIREBASE
-
-    const app =
-      initializeApp(firebaseConfig);
+};
 
 
-    // INICIALIZA FIRESTORE
+const app =
+initializeApp(firebaseConfig);
 
-    const db =
-      getFirestore(app);
-
-
-    // ELEMENTOS
-
-    const btnPegarKey =
-      document.getElementById(
-        "btnPegarKey"
-      );
-
-    const btnCopiar =
-      document.getElementById(
-        "btnCopiar"
-      );
-
-    const keyBox =
-      document.getElementById(
-        "keyBox"
-      );
-
-    const keyElemento =
-      document.getElementById(
-        "key"
-      );
-
-    const validadeElemento =
-      document.getElementById(
-        "validade"
-      );
-
-    const mensagem =
-      document.getElementById(
-        "mensagem"
-      );
+const db =
+getFirestore(app);
 
 
-    // SEU LINK DO ENCURTANET
+/* =========================
+   GERAR KEY
+========================= */
 
-    const linkEncurtado =
-      "https://encurtalink.online/9IIBNl";
+function gerarKey() {
+
+  const parte1 =
+  Math.random()
+  .toString(36)
+  .substring(2, 6)
+  .toUpperCase();
+
+  const parte2 =
+  Math.random()
+  .toString(36)
+  .substring(2, 6)
+  .toUpperCase();
+
+  return "SILVA-" +
+         parte1 +
+         "-" +
+         parte2;
+}
 
 
-    // GERA A KEY
+/* =========================
+   CRIAR KEY
+========================= */
 
-    function gerarCodigoKey() {
+async function criarKey() {
 
-      const caracteres =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  const key =
+  gerarKey();
 
-      let key = "SILVA-";
+  const agora =
+  new Date();
+
+  const expiracao =
+  new Date(agora);
+
+  expiracao.setDate(
+    expiracao.getDate() + 30
+  );
 
 
-      for (
-        let i = 0;
-        i < 12;
-        i++
-      ) {
+  try {
 
-        key +=
-          caracteres.charAt(
-            Math.floor(
-              Math.random() *
-              caracteres.length
-            )
-          );
+    await addDoc(
+
+      collection(
+        db,
+        "Keys"
+      ),
+
+      {
+
+        Key: key,
+
+        Active: true,
+
+        createdAt:
+        Timestamp.fromDate(
+          agora
+        ),
+
+        expiresAt:
+        Timestamp.fromDate(
+          expiracao
+        )
 
       }
 
-
-      return key;
-
-    }
-
-
-    // BOTÃO PEGAR KEY
-
-    btnPegarKey.addEventListener(
-      "click",
-      async function() {
-
-        /*
-          PRIMEIRO CLIQUE:
-          MANDA PARA O ENCURTANET
-        */
-
-        if (
-          !sessionStorage.getItem(
-            "voltouDoEncurtador"
-          )
-        ) {
-
-          sessionStorage.setItem(
-            "voltouDoEncurtador",
-            "true"
-          );
-
-
-          window.location.href =
-            linkEncurtado;
-
-
-          return;
-
-        }
-
-
-        /*
-          SEGUNDO CLIQUE:
-          GERA A KEY
-        */
-
-        btnPegarKey.disabled =
-          true;
-
-
-        mensagem.textContent =
-          "Gerando sua Key...";
-
-
-        try {
-
-          const key =
-            gerarCodigoKey();
-
-
-          // DATA ATUAL
-
-          const agora =
-            new Date();
-
-
-          // DATA + 30 DIAS
-
-          const expiracao =
-            new Date(agora);
-
-
-          expiracao.setDate(
-            expiracao.getDate() + 30
-          );
-
-
-          // SALVA NO FIRESTORE
-
-          await addDoc(
-            collection(
-              db,
-              "Keys"
-            ),
-            {
-
-              Key: key,
-
-              Active: true,
-
-              createdAt:
-                Timestamp.fromDate(
-                  agora
-                ),
-
-              expiresAt:
-                Timestamp.fromDate(
-                  expiracao
-                )
-
-            }
-          );
-
-
-          // MOSTRA KEY
-
-          keyElemento.textContent =
-            key;
-
-
-          validadeElemento.textContent =
-            "Expira em: " +
-            expiracao.toLocaleDateString(
-              "pt-BR"
-            );
-
-
-          keyBox.style.display =
-            "block";
-
-
-          mensagem.textContent =
-            "Key gerada com sucesso!";
-
-
-          mensagem.style.color =
-            "#00ff88";
-
-
-        } catch (erro) {
-
-          console.error(
-            erro
-          );
-
-
-          mensagem.textContent =
-            "Erro ao gerar a Key.";
-
-
-          mensagem.style.color =
-            "#ff4444";
-
-        }
-
-
-        btnPegarKey.disabled =
-          false;
-
-      }
     );
 
 
-    // COPIAR KEY
-
-    btnCopiar.addEventListener(
-      "click",
-      async function() {
-
-        const key =
-          keyElemento.textContent;
+    document
+    .getElementById("key")
+    .innerText =
+    key;
 
 
-        await navigator.clipboard.writeText(
-          key
-        );
+  } catch (error) {
+
+    console.error(error);
+
+    document
+    .getElementById("key")
+    .innerText =
+    "ERRO AO GERAR KEY";
+
+  }
+
+}
 
 
-        btnCopiar.textContent =
-          "KEY COPIADA!";
+/* =========================
+   COPIAR KEY
+========================= */
+
+document
+.getElementById("copyButton")
+.onclick =
+async function() {
+
+  const key =
+  document
+  .getElementById("key")
+  .innerText;
 
 
-        setTimeout(
-          function() {
+  if (
+    key === "CARREGANDO..." ||
+    key === "ERRO AO GERAR KEY"
+  ) {
 
-            btnCopiar.textContent =
-              "COPIAR KEY";
+    return;
 
-          },
-          2000
-        );
+  }
 
-      }
-    );
+
+  try {
+
+    await navigator
+    .clipboard
+    .writeText(key);
+
+
+    document
+    .getElementById("status")
+    .innerText =
+    "✅ Key copiada!";
 
 
     /*
-      SE O USUÁRIO VOLTOU PARA O SITE,
-      MOSTRA A OPÇÃO DE GERAR A KEY
+      COLOQUE AQUI
+      A URL DO SEU SITE ANTIGO
     */
 
-    if (
-      sessionStorage.getItem(
-        "voltouDoEncurtador"
-      )
-    ) {
+    setTimeout(
+      function() {
 
-      mensagem.textContent =
-        "Você voltou! Clique novamente em PEGAR KEY.";
+        window.location.href =
+        "https://aparecidogustavo299-stack.github.io/Silvaffz-key//";
 
-      mensagem.style.color =
-        "#00ff88";
+      },
+      1000
+    );
 
-    }
 
-  </script>
+  } catch (error) {
+
+    document
+    .getElementById("status")
+    .innerText =
+    "❌ Não foi possível copiar.";
+
+  }
+
+};
+
+
+/* =========================
+   INICIAR
+========================= */
+
+criarKey();
+
+</script>
 
 </body>
-        </html>
+  </html>

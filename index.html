@@ -21,8 +21,7 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    background:
-    radial-gradient(circle at top,#101c32,#050811 65%);
+    background:radial-gradient(circle at top,#101c32,#050811 65%);
     color:white;
     padding:20px;
 }
@@ -43,7 +42,6 @@ body{
     font-weight:bold;
     color:#00eaff;
     letter-spacing:2px;
-    text-shadow:0 0 15px #00eaff;
     margin-bottom:8px;
 }
 
@@ -101,6 +99,12 @@ button:active{
     font-size:12px;
 }
 
+#error{
+    color:#ff4655;
+    font-size:12px;
+    margin-top:15px;
+}
+
 </style>
 
 </head>
@@ -124,7 +128,7 @@ button:active{
         </div>
 
         <div id="key">
-            CARREGANDO...
+            VERIFICANDO...
         </div>
 
         <button id="copyButton">
@@ -133,12 +137,18 @@ button:active{
 
         <div id="status"></div>
 
+        <div id="error"></div>
+
     </div>
 
 </div>
 
 
 <script type="module">
+
+/* =========================
+   FIREBASE APP
+========================= */
 
 import {
     initializeApp
@@ -147,9 +157,28 @@ from
 "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 
 
+/* =========================
+   FIREBASE AUTH
+========================= */
+
+import {
+    getAuth,
+    signInAnonymously
+}
+from
+"https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+
+/* =========================
+   FIRESTORE
+========================= */
+
 import {
     getFirestore,
     collection,
+    query,
+    where,
+    getDocs,
     addDoc,
     Timestamp
 }
@@ -158,7 +187,7 @@ from
 
 
 /* =========================
-   FIREBASE
+   CONFIGURAÇÃO FIREBASE
 ========================= */
 
 const firebaseConfig = {
@@ -187,11 +216,54 @@ const firebaseConfig = {
 };
 
 
+/* =========================
+   INICIAR FIREBASE
+========================= */
+
 const app =
-initializeApp(firebaseConfig);
+initializeApp(
+    firebaseConfig
+);
+
+
+const auth =
+getAuth(
+    app
+);
+
 
 const db =
-getFirestore(app);
+getFirestore(
+    app
+);
+
+
+/* =========================
+   ELEMENTOS
+========================= */
+
+const keyElement =
+document.getElementById(
+    "key"
+);
+
+
+const copyButton =
+document.getElementById(
+    "copyButton"
+);
+
+
+const statusElement =
+document.getElementById(
+    "status"
+);
+
+
+const errorElement =
+document.getElementById(
+    "error"
+);
 
 
 /* =========================
@@ -206,52 +278,194 @@ function gerarKey(){
     .substring(2,6)
     .toUpperCase();
 
+
     const parte2 =
     Math.random()
     .toString(36)
     .substring(2,6)
     .toUpperCase();
 
-    return "SILVA-" +
-    parte1 +
-    "-" +
-    parte2;
+
+    return (
+        "SILVA-" +
+        parte1 +
+        "-" +
+        parte2
+    );
 
 }
 
 
 /* =========================
-   CRIAR KEY UMA VEZ
+   LOGIN ANÔNIMO
 ========================= */
 
-async function criarKey(){
+async function iniciar(){
 
-    /*
-    Verifica se já existe
-    uma Key nesta sessão.
-    */
+    try{
 
-    const keyExistente =
-    sessionStorage.getItem(
-        "silvaffz_key"
-    );
+        /*
+        Cria ou recupera
+        o usuário anônimo.
+        */
+
+        const resultado =
+        await signInAnonymously(
+            auth
+        );
 
 
-    if(keyExistente){
+        const uid =
+        resultado.user.uid;
 
-        document
-        .getElementById("key")
-        .innerText =
-        keyExistente;
 
-        return;
+        console.log(
+            "UID anônimo:",
+            uid
+        );
+
+
+        /*
+        Agora verifica se
+        este UID já recebeu
+        uma Key.
+        */
+
+        await verificarKey(
+            uid
+        );
+
 
     }
 
+    catch(error){
 
-    /*
-    Cria uma nova Key.
-    */
+        console.error(
+            error
+        );
+
+
+        keyElement.innerText =
+        "ERRO";
+
+
+        errorElement.innerText =
+        "Não foi possível conectar ao Firebase.";
+
+    }
+
+}
+
+
+/* =========================
+   VERIFICAR KEY
+========================= */
+
+async function verificarKey(
+    uid
+){
+
+    try{
+
+        /*
+        Procura uma Key
+        pertencente ao UID.
+        */
+
+        const consulta =
+        query(
+
+            collection(
+                db,
+                "Keys"
+            ),
+
+            where(
+                "uid",
+                "==",
+                uid
+            )
+
+        );
+
+
+        const resultado =
+        await getDocs(
+            consulta
+        );
+
+
+        /*
+        Se já existe uma Key,
+        NÃO cria outra.
+        */
+
+        if(
+            !resultado.empty
+        ){
+
+            const documento =
+            resultado.docs[0];
+
+
+            const dados =
+            documento.data();
+
+
+            keyElement.innerText =
+            dados.Key;
+
+
+            copyButton.style.display =
+            "block";
+
+
+            statusElement.innerText =
+            "Sua Key já foi gerada.";
+
+
+            return;
+
+        }
+
+
+        /*
+        Se não existe,
+        cria uma única Key.
+        */
+
+        await criarKey(
+            uid
+        );
+
+    }
+
+    catch(error){
+
+        console.error(
+            error
+        );
+
+
+        keyElement.innerText =
+        "ERRO";
+
+
+        errorElement.innerText =
+        "Erro ao verificar sua Key.";
+
+    }
+
+}
+
+
+/* =========================
+   CRIAR KEY
+========================= */
+
+async function criarKey(
+    uid
+){
 
     const key =
     gerarKey();
@@ -262,7 +476,9 @@ async function criarKey(){
 
 
     const expiracao =
-    new Date(agora);
+    new Date(
+        agora
+    );
 
 
     expiracao.setDate(
@@ -271,10 +487,6 @@ async function criarKey(){
 
 
     try{
-
-        /*
-        Salva no Firebase.
-        */
 
         await addDoc(
 
@@ -285,9 +497,14 @@ async function criarKey(){
 
             {
 
-                Key:key,
+                Key:
+                key,
 
-                Active:true,
+                uid:
+                uid,
+
+                Active:
+                true,
 
                 createdAt:
                 Timestamp.fromDate(
@@ -305,36 +522,31 @@ async function criarKey(){
 
 
         /*
-        Salva a mesma Key
-        na sessão.
+        Mostra a Key criada.
         */
 
-        sessionStorage.setItem(
-            "silvaffz_key",
-            key
-        );
-
-
-        /*
-        Mostra a Key.
-        */
-
-        document
-        .getElementById("key")
-        .innerText =
+        keyElement.innerText =
         key;
 
+
+        statusElement.innerText =
+        "✅ Sua Key foi criada.";
 
     }
 
     catch(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
 
-        document
-        .getElementById("key")
-        .innerText =
-        "ERRO AO GERAR KEY";
+
+        keyElement.innerText =
+        "ERRO";
+
+
+        errorElement.innerText =
+        "Não foi possível criar sua Key.";
 
     }
 
@@ -345,25 +557,17 @@ async function criarKey(){
    COPIAR KEY
 ========================= */
 
-document
-.getElementById("copyButton")
-.onclick =
+copyButton.onclick =
 async function(){
 
-    /*
-    Pega a Key que já existe.
-    Não cria uma nova.
-    */
-
     const key =
-    document
-    .getElementById("key")
-    .innerText;
+    keyElement.innerText;
 
 
     if(
-        key === "CARREGANDO..." ||
-        key === "ERRO AO GERAR KEY"
+        !key ||
+        key === "VERIFICANDO..." ||
+        key === "ERRO"
     ){
 
         return;
@@ -375,45 +579,25 @@ async function(){
 
         await navigator
         .clipboard
-        .writeText(key);
-
-
-        document
-        .getElementById("status")
-        .innerText =
-        "✅ Key copiada!";
-
-
-        /*
-        Volta para o painel
-        depois de 1 segundo.
-        */
-
-        setTimeout(
-            function(){
-
-                /*
-                TROQUE A URL ABAIXO
-                PELA URL DO SEU PAINEL
-                */
-
-                window.location.href =
-        "https://aparecidogustavo299-stack.github.io/Silvaffz-key/";
-
-            },
-            1000
+        .writeText(
+            key
         );
+
+
+        statusElement.innerText =
+        "✅ Key copiada!";
 
 
     }
 
     catch(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
 
-        document
-        .getElementById("status")
-        .innerText =
+
+        statusElement.innerText =
         "❌ Não foi possível copiar.";
 
     }
@@ -422,13 +606,17 @@ async function(){
 
 
 /* =========================
-   INICIAR
+   INICIAR SISTEMA
 ========================= */
 
-criarKey();
+copyButton.style.display =
+"block";
+
+
+iniciar();
 
 </script>
 
 </body>
 
-  </html>
+</html>

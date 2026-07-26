@@ -2,8 +2,12 @@
 <html lang="pt-BR">
 
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>SILVAFFZ - Liberar Key</title>
 
@@ -22,7 +26,11 @@ body{
     justify-content:center;
     align-items:center;
     background:
-    radial-gradient(circle at top,#101c32,#050811 65%);
+    radial-gradient(
+        circle at top,
+        #101c32,
+        #050811 65%
+    );
     color:white;
     padding:20px;
 }
@@ -35,7 +43,8 @@ body{
     border-radius:20px;
     padding:30px 25px;
     text-align:center;
-    box-shadow:0 0 25px #00eaff44;
+    box-shadow:
+    0 0 25px #00eaff44;
 }
 
 .logo{
@@ -69,7 +78,8 @@ body{
 
 .dot.active{
     background:#00eaff;
-    box-shadow:0 0 10px #00eaff;
+    box-shadow:
+    0 0 10px #00eaff;
 }
 
 .etapa{
@@ -119,6 +129,11 @@ button:active{
     transform:scale(.98);
 }
 
+button:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
 .key-box{
     background:#0d1725;
     border:1px solid #00ff88;
@@ -153,6 +168,19 @@ button:active{
     font-size:12px;
 }
 
+.error{
+    color:#ff4655;
+    font-size:12px;
+    margin-top:15px;
+    line-height:1.5;
+}
+
+.loading{
+    color:#00eaff;
+    font-size:13px;
+    margin-top:15px;
+}
+
 </style>
 
 </head>
@@ -161,280 +189,824 @@ button:active{
 
 <div class="container">
 
-    <div class="logo">
-        SILVAFFZ
-    </div>
+<div class="logo">
+SILVAFFZ
+</div>
 
-    <div class="subtitle">
-        SISTEMA DE LIBERAÇÃO DE KEY
-    </div>
-
-
-    <!-- PROGRESSO -->
-
-    <div class="progress">
-
-        <div
-        id="dot1"
-        class="dot active">
-        </div>
-
-        <div
-        id="dot2"
-        class="dot">
-        </div>
-
-        <div
-        id="dot3"
-        class="dot">
-        </div>
-
-    </div>
+<div class="subtitle">
+SISTEMA DE LIBERAÇÃO DE KEY
+</div>
 
 
-    <!-- ETAPA 1 -->
+<!-- PROGRESSO -->
 
-    <div
-    id="etapa1"
-    class="etapa active">
+<div class="progress">
 
-        <div class="numero">
-            ETAPA 1 DE 3
-        </div>
+<div
+id="dot1"
+class="dot active">
+</div>
 
-        <div class="titulo">
-            Verificação inicial
-        </div>
+<div
+id="dot2"
+class="dot">
+</div>
 
-        <div class="texto">
-            Clique no botão abaixo para iniciar
-            o processo de liberação da sua Key.
-        </div>
-
-        <button
-        onclick="proximaEtapa(2)">
-            CONTINUAR
-        </button>
-
-    </div>
-
-
-    <!-- ETAPA 2 -->
-
-    <div
-    id="etapa2"
-    class="etapa">
-
-        <div class="numero">
-            ETAPA 2 DE 3
-        </div>
-
-        <div class="titulo">
-            Quase pronto
-        </div>
-
-        <div class="texto">
-            Sua solicitação foi registrada.
-            Continue para a última etapa.
-        </div>
-
-        <button
-        onclick="proximaEtapa(3)">
-            CONTINUAR
-        </button>
-
-    </div>
-
-
-    <!-- ETAPA 3 -->
-
-    <div
-    id="etapa3"
-    class="etapa">
-
-        <div class="numero">
-            ETAPA 3 DE 3
-        </div>
-
-        <div class="titulo">
-            Key liberada
-        </div>
-
-        <div class="texto">
-            Sua Key está pronta.
-            Copie abaixo e use no painel SILVAFFZ.
-        </div>
-
-        <div class="key-box">
-
-            <div class="key-title">
-                🔑 SUA KEY
-            </div>
-
-            <div id="key">
-                GERANDO...
-            </div>
-
-            <button
-            class="copy"
-            onclick="copiarKey()">
-
-                📋 COPIAR KEY
-
-            </button>
-
-            <div
-            id="status"
-            class="status">
-            </div>
-
-        </div>
-
-    </div>
+<div
+id="dot3"
+class="dot">
+</div>
 
 </div>
 
 
-<script>
+<!-- ETAPA 1 -->
 
-/* ============================
-   KEY
-============================ */
+<div
+id="etapa1"
+class="etapa active">
 
-let keyGerada = "";
+<div class="numero">
+ETAPA 1 DE 3
+</div>
+
+<div class="titulo">
+Verificação inicial
+</div>
+
+<div class="texto">
+Clique abaixo para iniciar
+o processo de liberação
+da sua Key.
+</div>
+
+<button
+id="etapa1Button">
+
+CONTINUAR
+
+</button>
+
+</div>
 
 
-/* ============================
+<!-- ETAPA 2 -->
+
+<div
+id="etapa2"
+class="etapa">
+
+<div class="numero">
+ETAPA 2 DE 3
+</div>
+
+<div class="titulo">
+Quase pronto
+</div>
+
+<div class="texto">
+Continue para a última etapa
+para verificar e liberar sua Key.
+</div>
+
+<button
+id="etapa2Button">
+
+CONTINUAR
+
+</button>
+
+</div>
+
+
+<!-- ETAPA 3 -->
+
+<div
+id="etapa3"
+class="etapa">
+
+<div class="numero">
+ETAPA 3 DE 3
+</div>
+
+<div class="titulo">
+Sua Key
+</div>
+
+<div class="texto">
+Sua Key está vinculada ao seu
+acesso anônimo e será válida
+por 30 dias.
+</div>
+
+<div class="key-box">
+
+<div class="key-title">
+🔑 SUA KEY
+</div>
+
+<div id="key">
+VERIFICANDO...
+</div>
+
+<button
+id="copyButton"
+class="copy"
+disabled>
+
+📋 COPIAR KEY
+
+</button>
+
+<div
+id="status"
+class="status">
+</div>
+
+<div
+id="error"
+class="error">
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script type="module">
+
+
+/* =====================================
+   FIREBASE APP
+===================================== */
+
+import {
+
+initializeApp
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+
+/* =====================================
+   FIREBASE AUTH
+===================================== */
+
+import {
+
+getAuth,
+signInAnonymously
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+
+/* =====================================
+   FIRESTORE
+===================================== */
+
+import {
+
+getFirestore,
+collection,
+query,
+where,
+getDocs,
+addDoc,
+Timestamp
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
+
+/* =====================================
+   CONFIGURAÇÃO
+===================================== */
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyDC7qRhqJJHV4Mybb8DpxMY_Ieud52DeoA",
+
+authDomain:
+"silvaffz.firebaseapp.com",
+
+projectId:
+"silvaffz",
+
+storageBucket:
+"silvaffz.firebasestorage.app",
+
+messagingSenderId:
+"120628808949",
+
+appId:
+"1:120628808949:web:745ef77eedbc9550a509bc",
+
+measurementId:
+"G-D1NJ15L6Q8"
+
+};
+
+
+/* =====================================
+   INICIAR FIREBASE
+===================================== */
+
+const app =
+initializeApp(
+firebaseConfig
+);
+
+
+const auth =
+getAuth(
+app
+);
+
+
+const db =
+getFirestore(
+app
+);
+
+
+/* =====================================
+   ELEMENTOS
+===================================== */
+
+const etapa1 =
+document.getElementById(
+"etapa1"
+);
+
+const etapa2 =
+document.getElementById(
+"etapa2"
+);
+
+const etapa3 =
+document.getElementById(
+"etapa3"
+);
+
+
+const dot1 =
+document.getElementById(
+"dot1"
+);
+
+const dot2 =
+document.getElementById(
+"dot2"
+);
+
+const dot3 =
+document.getElementById(
+"dot3"
+);
+
+
+const etapa1Button =
+document.getElementById(
+"etapa1Button"
+);
+
+const etapa2Button =
+document.getElementById(
+"etapa2Button"
+);
+
+
+const keyElement =
+document.getElementById(
+"key"
+);
+
+const copyButton =
+document.getElementById(
+"copyButton"
+);
+
+const statusElement =
+document.getElementById(
+"status"
+);
+
+const errorElement =
+document.getElementById(
+"error"
+);
+
+
+/* =====================================
+   VARIÁVEIS
+===================================== */
+
+let uidAtual = null;
+
+let keyAtual = null;
+
+
+/* =====================================
    GERAR KEY
-============================ */
+===================================== */
 
 function gerarKey(){
 
-    const parte1 =
-    Math.random()
-    .toString(36)
-    .substring(2,6)
-    .toUpperCase();
+const parte1 =
 
-    const parte2 =
-    Math.random()
-    .toString(36)
-    .substring(2,6)
-    .toUpperCase();
+Math.random()
+.toString(36)
+.substring(2,6)
+.toUpperCase();
 
-    return "SILVA-" +
-    parte1 +
-    "-" +
-    parte2;
+
+const parte2 =
+
+Math.random()
+.toString(36)
+.substring(2,6)
+.toUpperCase();
+
+
+return (
+
+"SILVA-" +
+
+parte1 +
+
+"-" +
+
+parte2
+
+);
 
 }
 
 
-/* ============================
+/* =====================================
    TROCAR ETAPA
-============================ */
+===================================== */
 
-function proximaEtapa(numero){
+function mostrarEtapa(numero){
 
-    document
-    .querySelectorAll(".etapa")
-    .forEach(function(etapa){
+etapa1.classList.remove(
+"active"
+);
 
-        etapa.classList.remove("active");
+etapa2.classList.remove(
+"active"
+);
 
-    });
-
-
-    document
-    .getElementById(
-        "etapa" + numero
-    )
-    .classList.add("active");
+etapa3.classList.remove(
+"active"
+);
 
 
-    document
-    .querySelectorAll(".dot")
-    .forEach(function(dot){
+dot1.classList.remove(
+"active"
+);
 
-        dot.classList.remove("active");
+dot2.classList.remove(
+"active"
+);
 
-    });
-
-
-    for(
-        let i = 1;
-        i <= numero;
-        i++
-    ){
-
-        document
-        .getElementById(
-            "dot" + i
-        )
-        .classList.add("active");
-
-    }
+dot3.classList.remove(
+"active"
+);
 
 
-    /* Gera a Key apenas na etapa 3 */
+if(numero === 1){
 
-    if(numero === 3){
+etapa1.classList.add(
+"active"
+);
 
-        keyGerada =
-        gerarKey();
-
-        document
-        .getElementById("key")
-        .innerText =
-        keyGerada;
-
-    }
+dot1.classList.add(
+"active"
+);
 
 }
 
 
-/* ============================
+if(numero === 2){
+
+etapa2.classList.add(
+"active"
+);
+
+dot1.classList.add(
+"active"
+);
+
+dot2.classList.add(
+"active"
+);
+
+}
+
+
+if(numero === 3){
+
+etapa3.classList.add(
+"active"
+);
+
+dot1.classList.add(
+"active"
+);
+
+dot2.classList.add(
+"active"
+);
+
+dot3.classList.add(
+"active"
+);
+
+}
+
+}
+
+
+/* =====================================
+   ETAPA 1
+===================================== */
+
+etapa1Button.onclick =
+function(){
+
+mostrarEtapa(
+2
+);
+
+};
+
+
+/* =====================================
+   ETAPA 2
+===================================== */
+
+etapa2Button.onclick =
+async function(){
+
+mostrarEtapa(
+3
+);
+
+await iniciarSistema();
+
+};
+
+
+/* =====================================
+   LOGIN ANÔNIMO
+===================================== */
+
+async function iniciarSistema(){
+
+keyElement.innerText =
+"VERIFICANDO...";
+
+copyButton.disabled =
+true;
+
+errorElement.innerText =
+"";
+
+statusElement.innerText =
+"Conectando...";
+
+
+try{
+
+
+/* 
+Cria ou recupera
+o usuário anônimo.
+*/
+
+const resultado =
+
+await signInAnonymously(
+auth
+);
+
+
+uidAtual =
+resultado.user.uid;
+
+
+console.log(
+"UID anônimo:",
+uidAtual
+);
+
+
+/*
+Procura uma Key
+para este UID.
+*/
+
+await verificarKey(
+uidAtual
+);
+
+
+}
+
+catch(error){
+
+console.error(
+"Erro Firebase:",
+error
+);
+
+
+keyElement.innerText =
+"ERRO";
+
+
+statusElement.innerText =
+"";
+
+
+errorElement.innerText =
+"Não foi possível conectar ao Firebase.";
+
+}
+
+}
+
+
+/* =====================================
+   VERIFICAR KEY
+===================================== */
+
+async function verificarKey(uid){
+
+try{
+
+
+const consulta =
+
+query(
+
+collection(
+db,
+"Keys"
+),
+
+where(
+"uid",
+"==",
+uid
+)
+
+);
+
+
+const resultado =
+
+await getDocs(
+consulta
+);
+
+
+/*
+Se já existe uma Key,
+não cria outra.
+*/
+
+if(
+!resultado.empty
+){
+
+const documento =
+
+resultado.docs[0];
+
+
+const dados =
+
+documento.data();
+
+
+keyAtual =
+dados.Key;
+
+
+keyElement.innerText =
+keyAtual;
+
+
+copyButton.disabled =
+false;
+
+
+statusElement.innerText =
+"✅ Sua Key está disponível.";
+
+
+return;
+
+}
+
+
+/*
+Se não existe,
+cria uma nova.
+*/
+
+await criarKey(
+uid
+);
+
+
+}
+
+catch(error){
+
+console.error(
+"Erro ao verificar Key:",
+error
+);
+
+
+keyElement.innerText =
+"ERRO";
+
+
+errorElement.innerText =
+"Erro ao verificar sua Key.";
+
+}
+
+}
+
+
+/* =====================================
+   CRIAR KEY
+===================================== */
+
+async function criarKey(uid){
+
+const key =
+gerarKey();
+
+
+const agora =
+new Date();
+
+
+const expiracao =
+new Date(
+agora
+);
+
+
+expiracao.setDate(
+expiracao.getDate() + 30
+);
+
+
+try{
+
+
+await addDoc(
+
+collection(
+db,
+"Keys"
+),
+
+{
+
+Key:
+key,
+
+uid:
+uid,
+
+Active:
+true,
+
+createdAt:
+
+Timestamp.fromDate(
+agora
+),
+
+expiresAt:
+
+Timestamp.fromDate(
+expiracao
+)
+
+}
+
+);
+
+
+keyAtual =
+key;
+
+
+keyElement.innerText =
+key;
+
+
+copyButton.disabled =
+false;
+
+
+statusElement.innerText =
+"✅ Key criada com sucesso.";
+
+
+}
+
+catch(error){
+
+console.error(
+"Erro ao criar Key:",
+error
+);
+
+
+keyElement.innerText =
+"ERRO";
+
+
+errorElement.innerText =
+"Não foi possível criar sua Key.";
+
+}
+
+}
+
+
+/* =====================================
    COPIAR KEY
-============================ */
+===================================== */
 
-async function copiarKey(){
+copyButton.onclick =
+async function(){
 
-    if(!keyGerada){
+if(
+!keyAtual
+){
 
-        return;
-
-    }
-
-
-    try{
-
-        await navigator
-        .clipboard
-        .writeText(
-            keyGerada
-        );
-
-
-        document
-        .getElementById("status")
-        .innerText =
-        "✅ Key copiada com sucesso!";
-
-    }
-
-    catch(error){
-
-        document
-        .getElementById("status")
-        .innerText =
-        "❌ Não foi possível copiar.";
-
-    }
+return;
 
 }
+
+
+try{
+
+
+await navigator
+.clipboard
+.writeText(
+keyAtual
+);
+
+
+statusElement.innerText =
+"✅ Key copiada!";
+
+
+}
+
+catch(error){
+
+console.error(
+error
+);
+
+
+statusElement.innerText =
+"❌ Não foi possível copiar.";
+
+}
+
+};
+
 
 </script>
 
 </body>
 
-</html>
+    </html>

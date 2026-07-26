@@ -1,146 +1,160 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SILVAFFZ - Sua Key</title>
+<title>SILVAFFZ - Pegar Key</title>
 
 <style>
-* {
-  box-sizing: border-box;
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  background: radial-gradient(circle at top, #101c32, #050811 65%);
-  color: white;
-  font-family: Arial, sans-serif;
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:
+    radial-gradient(circle at top,#101c32,#050811 65%);
+    color:white;
+    padding:20px;
 }
 
-.panel {
-  width: 100%;
-  max-width: 400px;
-  padding: 25px;
-  text-align: center;
-  background: #070d19;
-  border: 1px solid #00eaff;
-  border-radius: 18px;
-  box-shadow: 0 0 25px #00eaff44;
+.container{
+    width:100%;
+    max-width:400px;
+    background:#070d19;
+    border:1px solid #00eaff;
+    border-radius:20px;
+    padding:30px 25px;
+    text-align:center;
+    box-shadow:0 0 25px #00eaff44;
 }
 
-.logo {
-  font-size: 28px;
-  font-weight: bold;
-  color: #00eaff;
-  letter-spacing: 2px;
-  margin-bottom: 8px;
+.logo{
+    font-size:32px;
+    font-weight:bold;
+    color:#00eaff;
+    letter-spacing:2px;
+    text-shadow:0 0 15px #00eaff;
+    margin-bottom:8px;
 }
 
-.subtitle {
-  color: #66849b;
-  font-size: 12px;
-  margin-bottom: 25px;
+.subtitle{
+    color:#66849b;
+    font-size:13px;
+    margin-bottom:25px;
 }
 
-.key-box {
-  padding: 20px;
-  background: #0d1725;
-  border: 1px solid #00ff88;
-  border-radius: 12px;
+.key-box{
+    background:#0d1725;
+    border:1px solid #00ff88;
+    border-radius:12px;
+    padding:20px;
 }
 
-.title {
-  color: #00ff88;
-  font-size: 13px;
-  font-weight: bold;
+.key-title{
+    color:#00ff88;
+    font-size:14px;
+    font-weight:bold;
+    margin-bottom:15px;
 }
 
-#key {
-  margin: 18px 0;
-  padding: 14px;
-  background: #050811;
-  border-radius: 8px;
-  color: #00ff88;
-  font-size: 18px;
-  font-weight: bold;
-  word-break: break-all;
+#key{
+    background:#050811;
+    border-radius:8px;
+    padding:15px;
+    color:#00ff88;
+    font-size:18px;
+    font-weight:bold;
+    word-break:break-all;
+    margin-bottom:18px;
 }
 
-button {
-  width: 100%;
-  padding: 14px;
-  border: none;
-  border-radius: 8px;
-  background: #00ff88;
-  color: #001a0d;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:9px;
+    background:#00ff88;
+    color:#001a0d;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-button:active {
-  transform: scale(.98);
+button:active{
+    transform:scale(.98);
 }
 
-#status {
-  margin-top: 15px;
-  color: #00ff88;
-  font-size: 12px;
-  min-height: 18px;
+#status{
+    min-height:18px;
+    margin-top:15px;
+    color:#00ff88;
+    font-size:12px;
 }
+
 </style>
+
 </head>
 
 <body>
 
-<div class="panel">
+<div class="container">
 
-  <div class="logo">
-    SILVAFFZ
-  </div>
-
-  <div class="subtitle">
-    SUA KEY DE ACESSO
-  </div>
-
-  <div class="key-box">
-
-    <div class="title">
-      🔑 SUA KEY
+    <div class="logo">
+        SILVAFFZ
     </div>
 
-    <div id="key">
-      CARREGANDO...
+    <div class="subtitle">
+        SUA KEY DE ACESSO
     </div>
 
-    <button id="copyButton">
-      📋 COPIAR KEY
-    </button>
+    <div class="key-box">
 
-    <div id="status"></div>
+        <div class="key-title">
+            🔑 SUA KEY
+        </div>
 
-  </div>
+        <div id="key">
+            CARREGANDO...
+        </div>
+
+        <button id="copyButton">
+            📋 COPIAR KEY
+        </button>
+
+        <div id="status"></div>
+
+    </div>
 
 </div>
+
 
 <script type="module">
 
 import {
-  initializeApp
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+    initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
 
 import {
-  getFirestore,
-  collection,
-  addDoc,
-  Timestamp
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+    getFirestore,
+    collection,
+    addDoc,
+    Timestamp
+}
+from
+"https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
 
 /* =========================
@@ -149,26 +163,26 @@ import {
 
 const firebaseConfig = {
 
-  apiKey:
-  "AIzaSyDC7qRhqJJHV4Mybb8DpxMY_Ieud52DeoA",
+    apiKey:
+    "AIzaSyDC7qRhqJJHV4Mybb8DpxMY_Ieud52DeoA",
 
-  authDomain:
-  "silvaffz.firebaseapp.com",
+    authDomain:
+    "silvaffz.firebaseapp.com",
 
-  projectId:
-  "silvaffz",
+    projectId:
+    "silvaffz",
 
-  storageBucket:
-  "silvaffz.firebasestorage.app",
+    storageBucket:
+    "silvaffz.firebasestorage.app",
 
-  messagingSenderId:
-  "120628808949",
+    messagingSenderId:
+    "120628808949",
 
-  appId:
-  "1:120628808949:web:745ef77eedbc9550a509bc",
+    appId:
+    "1:120628808949:web:745ef77eedbc9550a509bc",
 
-  measurementId:
-  "G-D1NJ15L6Q8"
+    measurementId:
+    "G-D1NJ15L6Q8"
 
 };
 
@@ -184,93 +198,145 @@ getFirestore(app);
    GERAR KEY
 ========================= */
 
-function gerarKey() {
+function gerarKey(){
 
-  const parte1 =
-  Math.random()
-  .toString(36)
-  .substring(2, 6)
-  .toUpperCase();
+    const parte1 =
+    Math.random()
+    .toString(36)
+    .substring(2,6)
+    .toUpperCase();
 
-  const parte2 =
-  Math.random()
-  .toString(36)
-  .substring(2, 6)
-  .toUpperCase();
+    const parte2 =
+    Math.random()
+    .toString(36)
+    .substring(2,6)
+    .toUpperCase();
 
-  return "SILVA-" +
-         parte1 +
-         "-" +
-         parte2;
+    return "SILVA-" +
+    parte1 +
+    "-" +
+    parte2;
+
 }
 
 
 /* =========================
-   CRIAR KEY
+   CRIAR KEY UMA VEZ
 ========================= */
 
-async function criarKey() {
+async function criarKey(){
 
-  const key =
-  gerarKey();
+    /*
+    Verifica se já existe
+    uma Key nesta sessão.
+    */
 
-  const agora =
-  new Date();
-
-  const expiracao =
-  new Date(agora);
-
-  expiracao.setDate(
-    expiracao.getDate() + 30
-  );
-
-
-  try {
-
-    await addDoc(
-
-      collection(
-        db,
-        "Keys"
-      ),
-
-      {
-
-        Key: key,
-
-        Active: true,
-
-        createdAt:
-        Timestamp.fromDate(
-          agora
-        ),
-
-        expiresAt:
-        Timestamp.fromDate(
-          expiracao
-        )
-
-      }
-
+    const keyExistente =
+    sessionStorage.getItem(
+        "silvaffz_key"
     );
 
 
-    document
-    .getElementById("key")
-    .innerText =
-    key;
+    if(keyExistente){
+
+        document
+        .getElementById("key")
+        .innerText =
+        keyExistente;
+
+        return;
+
+    }
 
 
-  } catch (error) {
+    /*
+    Cria uma nova Key.
+    */
 
-    console.error(error);
+    const key =
+    gerarKey();
 
-    document
-    .getElementById("key")
-    .innerText =
-    "ERRO AO GERAR KEY";
 
-  }
+    const agora =
+    new Date();
+
+
+    const expiracao =
+    new Date(agora);
+
+
+    expiracao.setDate(
+        expiracao.getDate() + 30
+    );
+
+
+    try{
+
+        /*
+        Salva no Firebase.
+        */
+
+        await addDoc(
+
+            collection(
+                db,
+                "Keys"
+            ),
+
+            {
+
+                Key:key,
+
+                Active:true,
+
+                createdAt:
+                Timestamp.fromDate(
+                    agora
+                ),
+
+                expiresAt:
+                Timestamp.fromDate(
+                    expiracao
+                )
+
+            }
+
+        );
+
+
+        /*
+        Salva a mesma Key
+        na sessão.
+        */
+
+        sessionStorage.setItem(
+            "silvaffz_key",
+            key
+        );
+
+
+        /*
+        Mostra a Key.
+        */
+
+        document
+        .getElementById("key")
+        .innerText =
+        key;
+
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        document
+        .getElementById("key")
+        .innerText =
+        "ERRO AO GERAR KEY";
+
+    }
 
 }
 
@@ -282,61 +348,75 @@ async function criarKey() {
 document
 .getElementById("copyButton")
 .onclick =
-async function() {
-
-  const key =
-  document
-  .getElementById("key")
-  .innerText;
-
-
-  if (
-    key === "CARREGANDO..." ||
-    key === "ERRO AO GERAR KEY"
-  ) {
-
-    return;
-
-  }
-
-
-  try {
-
-    await navigator
-    .clipboard
-    .writeText(key);
-
-
-    document
-    .getElementById("status")
-    .innerText =
-    "✅ Key copiada!";
-
+async function(){
 
     /*
-      COLOQUE AQUI
-      A URL DO SEU SITE ANTIGO
+    Pega a Key que já existe.
+    Não cria uma nova.
     */
 
-    setTimeout(
-      function() {
-
-        window.location.href =
-        "https://aparecidogustavo299-stack.github.io/Silvaffz-key//";
-
-      },
-      1000
-    );
-
-
-  } catch (error) {
-
+    const key =
     document
-    .getElementById("status")
-    .innerText =
-    "❌ Não foi possível copiar.";
+    .getElementById("key")
+    .innerText;
 
-  }
+
+    if(
+        key === "CARREGANDO..." ||
+        key === "ERRO AO GERAR KEY"
+    ){
+
+        return;
+
+    }
+
+
+    try{
+
+        await navigator
+        .clipboard
+        .writeText(key);
+
+
+        document
+        .getElementById("status")
+        .innerText =
+        "✅ Key copiada!";
+
+
+        /*
+        Volta para o painel
+        depois de 1 segundo.
+        */
+
+        setTimeout(
+            function(){
+
+                /*
+                TROQUE A URL ABAIXO
+                PELA URL DO SEU PAINEL
+                */
+
+                window.location.href =
+                "https://SEU-USUARIO.github.io/SEU-REPOSITORIO/";
+
+            },
+            1000
+        );
+
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        document
+        .getElementById("status")
+        .innerText =
+        "❌ Não foi possível copiar.";
+
+    }
 
 };
 
@@ -350,4 +430,5 @@ criarKey();
 </script>
 
 </body>
+
   </html>
